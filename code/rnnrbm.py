@@ -19,7 +19,7 @@ except ImportError:
 from midi.utils import midiread, midiwrite
 import theano
 import theano.tensor as T
-from theano.tensor.shared_randomstreams import RandomStreams
+from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
 
 #Don't use a python long as this don't work on 32 bits computers.
 numpy.random.seed(0xbeef)
@@ -288,7 +288,8 @@ class RnnRbm:
 
 def test_rnnrbm(batch_size=100, num_epochs=200):
     model = RnnRbm()
-    re = os.path.join(os.path.split(os.path.dirname(__file__))[0],
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    re = os.path.join(os.path.split(cwd)[0],
                       'data', 'Nottingham', 'train', '*.mid')
     model.train(glob.glob(re),
                 batch_size=batch_size, num_epochs=num_epochs)
